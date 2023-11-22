@@ -1,0 +1,24 @@
+<!doctype html>
+
+<html>
+    <head>
+        <title> <%=shopName%> </title>
+    </head>
+
+    <body>
+        <h1>Add to <%=shopName%>'s collection</h1>
+        <p>Enter the book you would like to add below and it's price</p>
+        
+        <form method="POST" action="/bookadded">
+            <p>Book name: 
+                <input id="book name" type="text" name="name" value="book name"/> 
+            </p>
+
+            <p>Book price: 
+                <input id="book price" type="number" name="price" min="0" value="0.00" step="0.01"/>
+            </p>
+
+            <input type="submit" value="Add Book"/>
+        </form>
+    </body>
+</html>
