@@ -41,6 +41,21 @@ module.exports = function(app, shopData) {
 
          });
     });
+
+    app.get('/bargainbooks', function(req, res) {
+        let sqlquery = "SELECT * FROM books WHERE price < 20"; // query database to get all books with a price less than £20
+        // execute sql query
+        db.query(sqlquery, (err, result) => {
+            if (err) {
+                res.redirect('./'); 
+            }
+
+            let newData = Object.assign({}, shopData, {availableBooks:result});
+            console.log(newData);
+            res.render("bargainbooks.ejs", newData);
+
+         });
+    });
  
     app.post('/registered', function (req,res) {
         // saving data in database

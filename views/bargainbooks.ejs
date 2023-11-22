@@ -2,11 +2,11 @@
 
 <html>
   <head>
-    <title> Welcome to <%=shopName%> </title>
+    <title>Welcome to <%=shopName%></title>
     <link rel="stylesheet"  type="text/css" href="/main.css" />
   </head>
   <body>
-    <h1>books available at <%=shopName%></h1>
+    <h1>books less than £20 at <%=shopName%>! </h1>
     <ul> 
         <% for(let i = 0; i < availableBooks.length; i++) { %>
             <li> <%= availableBooks[i].name %>, £<%= availableBooks[i].price %> </li>
