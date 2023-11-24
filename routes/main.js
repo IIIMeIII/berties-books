@@ -26,13 +26,15 @@ module.exports = function(app, shopData) {
                     db.query(sqlquery, ["%" + req.query.keyword + "%"], (err, result) => { // % represents any number of characters (including 0)
                         if (err) {
                             res.redirect("./");
-                        } else {
+                        } 
+                        else {
 
                             // merge shopData with the {availableBooks:result} object to create a new object newData to be passed to the ejs file 
                             newData = Object.assign({}, shopData, {availableBooks:result}); 
                             if (newData.availableBooks.length == 0) {
                                 res.send("No books found!");
-                            } else {
+                            } 
+                            else {
                                 res.render("search-results.ejs", newData);
                             }
                         }
