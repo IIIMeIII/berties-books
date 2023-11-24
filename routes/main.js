@@ -14,8 +14,34 @@ module.exports = function(app, shopData) {
     });
 
     app.get('/search-result', function (req, res) {
-        //searching in the database
-        res.send("You searched for: " + req.query.keyword);
+        // searching the database
+        let sqlquery = "SELECT * FROM books WHERE name = ?"; // query database to get all the books where the name is the same as the user input (keyword)
+        db.query(sqlquery, [req.query.keyword], (err, result) => {
+            if (err) {
+                res.redirect("./"); // redirects user back to the home page if there's an error
+            } else {
+                let newData = Object.assign({}, shopData, {availableBooks:result})
+                if (newData.availableBooks.length == 0) {
+                    sqlquery = "SELECT * FROM books WHERE name LIKE ?"; // query database to get all the books where the name is similar to the amount of characters the user entered (keyword)
+                    db.query(sqlquery, ["%" + req.query.keyword + "%"], (err, result) => { // % represents any number of characters (including 0)
+                        if (err) {
+                            res.redirect("./");
+                        } else {
+
+                            // merge shopData with the {availableBooks:result} object to create a new object newData to be passed to the ejs file 
+                            newData = Object.assign({}, shopData, {availableBooks:result}); 
+                            if (newData.availableBooks.length == 0) {
+                                res.send("No books found!");
+                            } else {
+                                res.render("search-results.ejs", newData);
+                            }
+                        }
+                    })
+                } else {
+                    res.render("search-results.ejs", newData);
+                }
+            }
+        })
     });
 
     app.get('/register', function (req,res) {
@@ -35,6 +61,7 @@ module.exports = function(app, shopData) {
                 res.redirect('./'); 
             }
 
+            // merge shopData with the {availableBooks:result} object to create a new object newData to be passed to the ejs file
             let newData = Object.assign({}, shopData, {availableBooks:result});
             console.log(newData);
             res.render("list.ejs", newData);

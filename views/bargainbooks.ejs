@@ -8,6 +8,7 @@
   <body>
     <h1>books less than £20 at <%=shopName%>! </h1>
     <ul> 
+        <!-- loops through the total number of available books and displays them as a list -->
         <% for(let i = 0; i < availableBooks.length; i++) { %>
             <li> <%= availableBooks[i].name %>, £<%= availableBooks[i].price %> </li>
         <% } %>
